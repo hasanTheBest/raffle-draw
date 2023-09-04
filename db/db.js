@@ -1,7 +1,7 @@
 const Ticket = require("../models/Tickets")
 
-class DB{
-  constructor(){
+class DB {
+  constructor() {
     this.tickets = []
   }
 
@@ -11,7 +11,7 @@ class DB{
    * 
    */
 
-  createTicket(username, price){
+  createTicket(username, price) {
     const ticket = new Ticket(username, price)
 
     this.tickets.push(ticket)
@@ -29,10 +29,10 @@ class DB{
    * @return {Array[Ticket]} array of tickets
    */
 
-  batchCreateTickets(username, price, quantity){
+  batchCreateTickets(username, price, quantity) {
     const tickets = []
 
-    for(let i=0; i<quantity; i++){
+    for (let i = 0; i < quantity; i++) {
       tickets.push(this.createTicket(username, price))
     }
 
@@ -41,32 +41,68 @@ class DB{
 
   /**
    * Delete a ticket
+   * @param {string} id
    * 
-   * 
+   * @returns {true}
    */
-  deleteTicketById(){
+  deleteTicketById(id) {
+    const index = this.tickets.findIndex(id => this.tickets.id === id)
+
+    this.tickets.splice(index, 1);
+
+    return true;
 
   }
 
   /**
    * 
+   * @param {string} ticket id
    * 
+   * @returns {Ticket} ticket with given id
    */
-  findTicketById(){
+  findTicketById(id) {
+    const ticket = this.tickets.filter((id) => this.tickets.id === id)
 
+    return ticket;
   }
 
   /**
    * 
-   * 
+   * Get all tickets
    */
-  getAllTickets(){}
+  getAllTickets() {
+    return this.tickets
+  }
 
   /**
-   * 
+   * @param {string} id
+   * @param {object} 
    */
-  draw(){
-    
+  updateTicketById() {
+
+  }
+
+  /**
+   * Draw tickets
+   * 
+   * @param {number} Winners count
+   * 
+   * @returns {[Tickets]} tickets equal to given count
+   */
+  draw(winners) {
+    const winnersTicketIndex = new Array(winners)
+    const randomIndex = Math.floor(Math.random() * this.tickets.length)
+    while (winnersTicketIndex.length < winners) {
+      if (winnersTicketIndex.indexOf(randomIndex) === -1)
+        winnersTicketIndex.push(randomIndex)
+    }
+
+    const winnersTickets = []
+    for(let index of  winnersTicketIndex){
+      winnersTickets.push(winnersTickets[index])
+    }
+
+    return winnersTickets;
   }
 
 }
