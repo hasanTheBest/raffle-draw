@@ -6,7 +6,8 @@ const db = require("./db/db");
 db.createTicket("Mahmud", 20);
 
 // create multiple tickets
-console.log("create multiple tickets", db.batchCreateTickets("siam", 30, 5));
+// console.log("create multiple tickets", db.batchCreateTickets("siam", 30, 5));
+db.batchCreateTickets("siam", 30, 5);
 
 // get all tickets
 console.log("get all tickets", db.getAllTickets());

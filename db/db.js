@@ -95,22 +95,13 @@ class DB {
    * @returns {[Ticket]} tickets equal to given count
    */
   draw(winners) {
-    const winnersTicketIndex = new Array(winners);
+    const winnersTicketIndex = new Array();
 
-    const getWinnerIndex = () => {
+    while (winnersTicketIndex.length < winners) {
       const randomIndex = Math.floor(Math.random() * this.tickets.length);
-      console.log("randomIndex", randomIndex);
-
-      while (winnersTicketIndex.length < winners) {
-        if (winnersTicketIndex.indexOf(randomIndex) === -1)
-          winnersTicketIndex.push(randomIndex);
-        getWinnerIndex();
-      }
-    };
-
-    getWinnerIndex();
-
-    console.log("winnersTicketIndex", winnersTicketIndex);
+      if (winnersTicketIndex.indexOf(randomIndex) === -1)
+        winnersTicketIndex.push(randomIndex);
+    }
 
     const winnersTickets = [];
     for (let index of winnersTicketIndex) {
