@@ -1,110 +1,124 @@
-const Ticket = require("../models/Tickets")
+const Ticket = require("../models/Tickets");
 
 class DB {
   constructor() {
-    this.tickets = []
+    this.tickets = [];
   }
 
   /**
+   * Create a ticket
    * @param {string} username
-   * @param {number} price 
-   * 
+   * @param {number} price
+   *
    */
 
   createTicket(username, price) {
-    const ticket = new Ticket(username, price)
+    const ticket = new Ticket(username, price);
 
-    this.tickets.push(ticket)
+    this.tickets.push(ticket);
 
     return ticket;
   }
 
   /**
-   * create mulitple tickets
-   * 
+   * create multiple tickets
+   *
    * @param {username} username
    * @param {number} price
    * @param {number} quantity
-   * 
-   * @return {Array[Ticket]} array of tickets
+   *
+   * @return {[Ticket]} array of tickets
    */
 
   batchCreateTickets(username, price, quantity) {
-    const tickets = []
+    const tickets = [];
 
     for (let i = 0; i < quantity; i++) {
-      tickets.push(this.createTicket(username, price))
+      tickets.push(this.createTicket(username, price));
     }
 
-    return tickets
+    return tickets;
+  }
+
+  /**
+   * Get all tickets by
+   *
+   * @return {[Ticket]} An array of ticket objects
+   */
+
+  getAllTickets() {
+    return this.tickets;
   }
 
   /**
    * Delete a ticket
    * @param {string} id
-   * 
+   *
    * @returns {true}
    */
   deleteTicketById(id) {
-    const index = this.tickets.findIndex(id => this.tickets.id === id)
+    const index = this.tickets.findIndex((id) => this.tickets.id === id);
 
     this.tickets.splice(index, 1);
 
     return true;
-
   }
 
   /**
-   * 
+   * Update a ticket
    * @param {string} ticket id
-   * 
+   * @param {object} ticket body
+   *
+   * @return {boolean} true
+   *
+   */
+
+  updateTicketById(id, ticketBody) {}
+
+  /**
+   * Find a ticket by id
+   * @param {string} ticket id
+   *
    * @returns {Ticket} ticket with given id
    */
   findTicketById(id) {
-    const ticket = this.tickets.filter((id) => this.tickets.id === id)
+    const ticket = this.tickets.filter((id) => this.tickets.id === id);
 
     return ticket;
   }
 
   /**
-   * 
-   * Get all tickets
-   */
-  getAllTickets() {
-    return this.tickets
-  }
-
-  /**
-   * @param {string} id
-   * @param {object} 
-   */
-  updateTicketById() {
-
-  }
-
-  /**
-   * Draw tickets
-   * 
-   * @param {number} Winners count
-   * 
-   * @returns {[Tickets]} tickets equal to given count
+   * Draw raffle
+   *
+   * @param {number} winners count
+   *
+   * @returns {[Ticket]} tickets equal to given count
    */
   draw(winners) {
-    const winnersTicketIndex = new Array(winners)
-    const randomIndex = Math.floor(Math.random() * this.tickets.length)
-    while (winnersTicketIndex.length < winners) {
-      if (winnersTicketIndex.indexOf(randomIndex) === -1)
-        winnersTicketIndex.push(randomIndex)
-    }
+    const winnersTicketIndex = new Array(winners);
 
-    const winnersTickets = []
-    for(let index of  winnersTicketIndex){
-      winnersTickets.push(winnersTickets[index])
+    const getWinnerIndex = () => {
+      const randomIndex = Math.floor(Math.random() * this.tickets.length);
+      console.log("randomIndex", randomIndex);
+
+      while (winnersTicketIndex.length < winners) {
+        if (winnersTicketIndex.indexOf(randomIndex) === -1)
+          winnersTicketIndex.push(randomIndex);
+        getWinnerIndex();
+      }
+    };
+
+    getWinnerIndex();
+
+    console.log("winnersTicketIndex", winnersTicketIndex);
+
+    const winnersTickets = [];
+    for (let index of winnersTicketIndex) {
+      winnersTickets.push(this.tickets[index]);
     }
 
     return winnersTickets;
   }
-
 }
 
 const db = new DB();
