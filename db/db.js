@@ -52,12 +52,12 @@ class DB {
 
   /**
    * Delete a ticket
-   * @param {string} id
+   * @param {string} id ticket id
    *
-   * @returns {true}
+   * @returns {Boolean} true or false
    */
   deleteTicketById(id) {
-    const index = this.tickets.findIndex((id) => this.tickets.id === id);
+    const index = this.tickets.findIndex((ticket) => ticket.id === id);
 
     this.tickets.splice(index, 1);
 
@@ -66,23 +66,32 @@ class DB {
 
   /**
    * Update a ticket
-   * @param {string} ticket id
-   * @param {object} ticket body
+   * @param {string} id ticket id
+   * @param {object} ticketBody ticket properties need to be updated
    *
-   * @return {boolean} true
+   * @return {Ticket} Ticket object with updated property
    *
    */
 
-  updateTicketById(id, ticketBody) {}
+  updateTicketById(id, ticketBody) {
+    const ticketIndex = this.tickets.findIndex((ticket) => ticket.id === id);
+    const ticket = this.tickets[ticketIndex];
+
+    const updatedTicket = { ...ticket, ...ticketBody };
+
+    this.tickets[ticketIndex] = updatedTicket;
+
+    return updatedTicket;
+  }
 
   /**
    * Find a ticket by id
-   * @param {string} ticket id
+   * @param {string} id ticket id
    *
    * @returns {Ticket} ticket with given id
    */
   findTicketById(id) {
-    const ticket = this.tickets.filter((id) => this.tickets.id === id);
+    const ticket = this.tickets.filter((ticket) => ticket.id === id);
 
     return ticket;
   }
@@ -90,9 +99,9 @@ class DB {
   /**
    * Draw raffle
    *
-   * @param {number} winners count
+   * @param {number} winners number of winners
    *
-   * @returns {[Ticket]} tickets equal to given count
+   * @returns {[Ticket]} array of tickets equal to given count
    */
   draw(winners) {
     const winnersTicketIndex = new Array();
